@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Tricksy;
 
 class Person
 {

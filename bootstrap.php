@@ -6,7 +6,7 @@ declare(strict_types=1);
 include_once __DIR__ . '/vendor/autoload.php';
 
 // bootstrap code
-use App\Challenges;
+use App\Tricksy\Challenges;
 
 $challenges = new Challenges();
 $challenges->start();

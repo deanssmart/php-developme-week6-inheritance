@@ -13,7 +13,7 @@ class Challenges
         // load challenges
         $this->spoon();
         $this->languages();
-        // $this->greet();
+        $this->greet();
 
         // $tricksy = new Tricksy();
         // $tricksy->start();
@@ -47,7 +47,7 @@ class Challenges
             $english->name(), // "English"
             $english->hello(), // "Hello"
             $french->name(), // "French"
-            $french->hello(), // "Bonjour
+            $french->hello(), // "Bonjour"
             $arabic->name(), // "Arabic"
             $arabic->hello() // "مرحبا"
         );

@@ -23,20 +23,16 @@ class Car
     }
 
     public function setPassengers(array $people)
-    {
-        
+    {        
         $this->passengers = collect($people);
         $this->occupants->push($people);
         return $this;
     }
-
 
     public function listOccupants()
     {
         return $this->occupants->flatten()->sort()->map(fn($occupant) => $occupant->fullName());
 
     }
-
-
 }
 

@@ -6,35 +6,32 @@ use App\Tricksy\Person;
 
 class Boat 
 {
-    private $driver;
+    private $captain;
     private $passengers;
     private $occupants;
 
     public function __construct()
     {
         $this->occupants = collect();
-        $this->passengers = collect();
     }
 
-    public function setDriver(Person $person) 
+    public function setCaptain(Person $person) 
     {
-        $this->driver = $person;
+        $this->captain = $person;
         $this->occupants->push($person);
         return $this;
     }
 
     public function setPassengers(array $people)
-    {
-        $this->passengers->push($people);
-        $this->occupants->push($person);
+    {        
+        $this->passengers = collect($people);
+        $this->occupants->push($people);
         return $this;
     }
 
     public function listOccupants()
     {
-        return $this->occupants->fullName()->sort()->all();
+        return $this->occupants->flatten()->sort()->map(fn($occupant) => $occupant->fullName());
 
     }
-
-
 }

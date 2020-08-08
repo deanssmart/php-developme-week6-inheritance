@@ -4,10 +4,9 @@ namespace App\Tricksy\Vehicles;
 use Illuminate\Support\Collection;
 use App\Tricksy\Person;
 
-class Car 
+class Car extends Vehicle
 {
     private $driver;
-    private $passengers;
     private $occupants;
 
     public function __construct()
@@ -18,12 +17,6 @@ class Car
     public function setDriver(Person $person) : Car
     {
         $this->driver = collect([$person]);
-        return $this;
-    }
-
-    public function setPassengers(array $people) : Car
-    {        
-        $this->passengers = collect($people);
         return $this;
     }
 

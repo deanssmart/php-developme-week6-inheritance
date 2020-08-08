@@ -4,12 +4,11 @@ namespace App\Tricksy\Vehicles;
 use Illuminate\Support\Collection;
 use App\Tricksy\Person;
 
-class Plane 
+class Plane extends Vehicle 
 {
     private $pilot;
     private $coPilot;
     private $stewards;
-    private $passengers;
     private $occupants;
 
     public function __construct()
@@ -32,12 +31,6 @@ class Plane
     public function setStewards(array $people) : Plane
     {        
         $this->stewards = collect($people);
-        return $this;
-    }
-
-    public function setPassengers(array $people) : Plane
-    {        
-        $this->passengers = collect($people);
         return $this;
     }
 

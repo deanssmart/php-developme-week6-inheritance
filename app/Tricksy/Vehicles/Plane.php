@@ -7,7 +7,7 @@ use App\Tricksy\Person;
 class Plane 
 {
     private $pilot;
-    private $copilot;
+    private $coPilot;
     private $stewards;
     private $passengers;
     private $occupants;
@@ -19,42 +19,37 @@ class Plane
 
     public function setPilot(Person $person) : Plane
     {
-        $this->pilot = $person;
-        $this->occupants->push($person);
+        $this->pilot = collect([$person]);
         return $this;
     }
 
     public function setCoPilot(Person $person) : Plane
     {
-        if($this->copilot === null) {
-            $this->copilot = $person;
-            $this->occupants->push($person);
-            return $this;
-        } else {
-            $this->$copilot = $this->occupants->reject(function ($occupant) {
-                return $occupant === $this->copilot;
-            });
-            return $this;
-        }
-
+        $this->coPilot = collect([$person]);
+        return $this;
     }
 
     public function setStewards(array $people) : Plane
     {        
         $this->stewards = collect($people);
-        $this->occupants->push($people);
         return $this;
     }
 
     public function setPassengers(array $people) : Plane
     {        
         $this->passengers = collect($people);
-        $this->occupants->push($people);
+        return $this;
+    }
+
+    private function setOccupants() : Plane
+    {
+        $this->occupants = $this->passengers->merge($this->pilot)->merge($this->coPilot)->merge($this->stewards);
         return $this;
     }
 
     public function listOccupants() : array
     {
-        return $this->occupants->flatten()->sort()->map(fn($occupant) => $occupant->fullName())->values()->all();
+        $this->setOccupants();
+        return $this->occupants->map(fn($occupant) => $occupant->fullName())->sort()->values()->all();
     }
 }

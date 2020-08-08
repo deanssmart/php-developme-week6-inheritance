@@ -17,20 +17,25 @@ class Boat
 
     public function setCaptain(Person $person) : Boat
     {
-        $this->captain = $person;
-        $this->occupants->push($person);
+        $this->captain = collect([$person]);
         return $this;
     }
 
     public function setPassengers(array $people) : Boat
     {        
         $this->passengers = collect($people);
-        $this->occupants->push($people);
+        return $this;
+    }
+
+    private function setOccupants() : Boat
+    {
+        $this->occupants = $this->passengers->merge($this->captain);
         return $this;
     }
 
     public function listOccupants() : array
     {
-        return $this->occupants->flatten()->sort()->map(fn($occupant) => $occupant->fullName())->values()->all();
+        $this->setOccupants();
+        return $this->occupants->map(fn($occupant) => $occupant->fullName())->sort()->values()->all();
     }
 }

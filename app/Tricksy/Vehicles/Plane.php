@@ -9,12 +9,6 @@ class Plane extends Vehicle
     private $pilot;
     private $coPilot;
     private $stewards;
-    private $occupants;
-
-    public function __construct()
-    {
-        $this->occupants = collect();
-    }
 
     public function setPilot(Person $person) : Plane
     {
@@ -34,15 +28,9 @@ class Plane extends Vehicle
         return $this;
     }
 
-    private function setOccupants() : Plane
+    protected function setOccupants() : Plane
     {
         $this->occupants = $this->passengers->merge($this->pilot)->merge($this->coPilot)->merge($this->stewards);
         return $this;
-    }
-
-    public function listOccupants() : array
-    {
-        $this->setOccupants();
-        return $this->occupants->map(fn($occupant) => $occupant->fullName())->sort()->values()->all();
     }
 }

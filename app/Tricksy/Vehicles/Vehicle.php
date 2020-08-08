@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Tricksy\Vehicles;
+use App\Tricksy\Person;
 
 abstract class Vehicle
 {
@@ -21,7 +22,7 @@ abstract class Vehicle
     public function listOccupants() : array
     {
         $this->setOccupants();
-        return $this->occupants->map(fn($occupant) => $occupant->fullName())->sort()->values()->all();
+        return $this->occupants->map(fn(Person $occupant) => $occupant->fullName())->sort()->values()->all();
      }
 
      

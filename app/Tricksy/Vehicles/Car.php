@@ -15,24 +15,28 @@ class Car
         $this->occupants = collect();
     }
 
-    public function setDriver(Person $person) 
+    public function setDriver(Person $person) : Car
     {
-        $this->driver = $person;
-        $this->occupants->push($person);
+        $this->driver = collect([$person]);
         return $this;
     }
 
-    public function setPassengers(array $people)
+    public function setPassengers(array $people) : Car
     {        
         $this->passengers = collect($people);
-        $this->occupants->push($people);
         return $this;
     }
 
-    public function listOccupants()
+    private function setOccupants() : Car
     {
-        return $this->occupants->flatten()->sort()->map(fn($occupant) => $occupant->fullName());
-
+        $this->occupants = $this->passengers->merge($this->driver);
+        return $this;
     }
+
+    public function listOccupants() : array
+    {
+        $this->setOccupants();
+        return $this->occupants->map(fn($occupant) => $occupant->fullName())->sort()->values()->all();
+     }
 }
 

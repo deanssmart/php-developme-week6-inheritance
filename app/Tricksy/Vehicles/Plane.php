@@ -4,37 +4,57 @@ namespace App\Tricksy\Vehicles;
 use Illuminate\Support\Collection;
 use App\Tricksy\Person;
 
-class Plane
+class Plane 
 {
-    private $driver;
+    private $pilot;
+    private $copilot;
+    private $stewards;
     private $passengers;
     private $occupants;
 
     public function __construct()
     {
         $this->occupants = collect();
-        $this->passengers = collect();
     }
 
-    public function setDriver(Person $person) 
+    public function setPilot(Person $person) : Plane
     {
-        $this->driver = $person;
+        $this->pilot = $person;
         $this->occupants->push($person);
         return $this;
     }
 
-    public function setPassengers(array $people)
+    public function setCoPilot(Person $person) : Plane
     {
-        $this->passengers->push($people);
-        $this->occupants->push($person);
+        if($this->copilot === null) {
+            $this->copilot = $person;
+            $this->occupants->push($person);
+            return $this;
+        } else {
+            $this->$copilot = $this->occupants->reject(function ($occupant) {
+                return $occupant === $this->copilot;
+            });
+            return $this;
+        }
+
+    }
+
+    public function setStewards(array $people) : Plane
+    {        
+        $this->stewards = collect($people);
+        $this->occupants->push($people);
         return $this;
     }
 
-    public function listOccupants()
-    {
-        return $this->occupants->fullName()->sort()->all();
-
+    public function setPassengers(array $people) : Plane
+    {        
+        $this->passengers = collect($people);
+        $this->occupants->push($people);
+        return $this;
     }
 
-
+    public function listOccupants() : array
+    {
+        return $this->occupants->flatten()->sort()->map(fn($occupant) => $occupant->fullName())->values()->all();
+    }
 }
